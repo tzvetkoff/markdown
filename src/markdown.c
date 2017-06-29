@@ -12,8 +12,17 @@
 typedef struct {
   ERL_NIF_TERM atom_true;
   ERL_NIF_TERM atom_tables;
-  ERL_NIF_TERM atom_autolink;
   ERL_NIF_TERM atom_fenced_code;
+  ERL_NIF_TERM atom_footnotes;
+  ERL_NIF_TERM atom_autolink;
+  ERL_NIF_TERM atom_strikethrough;
+  ERL_NIF_TERM atom_underline;
+  ERL_NIF_TERM atom_highlight;
+  ERL_NIF_TERM atom_quote;
+  ERL_NIF_TERM atom_superscript;
+  ERL_NIF_TERM atom_disable_intra_emphasis;
+  ERL_NIF_TERM atom_space_headers;
+  ERL_NIF_TERM atom_disable_indented_code;
 } markdown_priv;
 
 static ERL_NIF_TERM
@@ -54,6 +63,20 @@ to_html(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
           }
         }
 
+        if (enif_compare(tuple[0], priv->atom_fenced_code) == 0) {
+          if (enif_compare(tuple[1], priv->atom_true) == 0) {
+            extensions |= HOEDOWN_EXT_FENCED_CODE;
+            continue;
+          }
+        }
+
+        if (enif_compare(tuple[0], priv->atom_footnotes) == 0) {
+          if (enif_compare(tuple[1], priv->atom_true) == 0) {
+            extensions |= HOEDOWN_EXT_FOOTNOTES;
+            continue;
+          }
+        }
+
         if (enif_compare(tuple[0], priv->atom_autolink) == 0) {
           if (enif_compare(tuple[1], priv->atom_true) == 0) {
             extensions |= HOEDOWN_EXT_AUTOLINK;
@@ -61,9 +84,58 @@ to_html(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
           }
         }
 
-        if (enif_compare(tuple[0], priv->atom_fenced_code) == 0) {
+        if (enif_compare(tuple[0], priv->atom_strikethrough) == 0) {
           if (enif_compare(tuple[1], priv->atom_true) == 0) {
-            extensions |= HOEDOWN_EXT_FENCED_CODE;
+            extensions |= HOEDOWN_EXT_STRIKETHROUGH;
+            continue;
+          }
+        }
+
+        if (enif_compare(tuple[0], priv->atom_underline) == 0) {
+          if (enif_compare(tuple[1], priv->atom_true) == 0) {
+            extensions |= HOEDOWN_EXT_UNDERLINE;
+            continue;
+          }
+        }
+
+        if (enif_compare(tuple[0], priv->atom_highlight) == 0) {
+          if (enif_compare(tuple[1], priv->atom_true) == 0) {
+            extensions |= HOEDOWN_EXT_HIGHLIGHT;
+            continue;
+          }
+        }
+
+        if (enif_compare(tuple[0], priv->atom_quote) == 0) {
+          if (enif_compare(tuple[1], priv->atom_true) == 0) {
+            extensions |= HOEDOWN_EXT_QUOTE;
+            continue;
+          }
+        }
+
+        if (enif_compare(tuple[0], priv->atom_superscript) == 0) {
+          if (enif_compare(tuple[1], priv->atom_true) == 0) {
+            extensions |= HOEDOWN_EXT_SUPERSCRIPT;
+            continue;
+          }
+        }
+
+        if (enif_compare(tuple[0], priv->atom_disable_intra_emphasis) == 0) {
+          if (enif_compare(tuple[1], priv->atom_true) == 0) {
+            extensions |= HOEDOWN_EXT_NO_INTRA_EMPHASIS;
+            continue;
+          }
+        }
+
+        if (enif_compare(tuple[0], priv->atom_space_headers) == 0) {
+          if (enif_compare(tuple[1], priv->atom_true) == 0) {
+            extensions |= HOEDOWN_EXT_SPACE_HEADERS;
+            continue;
+          }
+        }
+
+        if (enif_compare(tuple[0], priv->atom_disable_indented_code) == 0) {
+          if (enif_compare(tuple[1], priv->atom_true) == 0) {
+            extensions |= HOEDOWN_EXT_DISABLE_INDENTED_CODE;
             continue;
           }
         }
@@ -100,8 +172,17 @@ load(ErlNifEnv* env, void** priv, ERL_NIF_TERM info) {
 
   data->atom_true = enif_make_atom(env, "true");
   data->atom_tables = enif_make_atom(env, "tables");
-  data->atom_autolink = enif_make_atom(env, "autolink");
   data->atom_fenced_code = enif_make_atom(env, "fenced_code");
+  data->atom_footnotes = enif_make_atom(env, "footnotes");
+  data->atom_autolink = enif_make_atom(env, "autolink");
+  data->atom_strikethrough = enif_make_atom(env, "strikethrough");
+  data->atom_underline = enif_make_atom(env, "underline");
+  data->atom_highlight = enif_make_atom(env, "highlight");
+  data->atom_quote = enif_make_atom(env, "quote");
+  data->atom_superscript = enif_make_atom(env, "superscript");
+  data->atom_disable_intra_emphasis = enif_make_atom(env, "disable_intra_emphasis");
+  data->atom_space_headers = enif_make_atom(env, "space_headers");
+  data->atom_disable_indented_code = enif_make_atom(env, "disable_indented_code");
 
   *priv = (void*) data;
   return 0;

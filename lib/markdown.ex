@@ -24,7 +24,16 @@ defmodule Markdown do
 
   * `:tables` - Enables Markdown Extra style tables (default: `false`)
   * `:fenced_code` - Enables fenced code blocks (default: `false`)
+  * `:footnotes` - Enables footnotes (default: `false`)
   * `:autolink` - Automatically turn URLs into links (default: `false`)
+  * `:strikethrough` - Enables `~~strikethrough~~` spans (default: `false`)
+  * `:underline` - Renders `_something_` as underline instead of emphasis (default: `false`)
+  * `:highlight` - Renders `==highlight==` spans (default: `false`)
+  * `:quote` - Renders `"quote"` as `<q>quote</q>` (default: `false`)
+  * `:superscript` - Renders `super^script` (default: `false`)
+  * `:disable_intra_emphasis` - Disables `emphasis_between_words` (default: `false`)
+  * `:space_headers` - Requires a space after `#` in headers (default: `false`)
+  * `:disable_indented_code` - Disables indented code blocks (default: `false`)
 
   """
   @spec to_html(doc :: String.t) :: String.t
